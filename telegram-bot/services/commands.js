@@ -230,7 +230,9 @@ export default function ({ bot, logger, store }) {
           await store.createUser(userState.data.username, proxyPassword)
           await store.setUserState(username, { state: USER_STATE.IDLE, data: {} })
 
-          const message = `User created. Send this settings to him:\n\n<b>host:</b> ${process.env.PUBLIC_URL.replace('https://', '').replace('http://', '')}\n<b>port:</b> ${process.env.APP_PORT}\n<b>username:</b> ${userState.data.username}\n<b>password:</b> ${proxyPassword}`
+          const proxyLink = `tg://socks?server=${process.env.PUBLIC_URL.replace('https://', '').replace('http://', '')}&port=${process.env.APP_PORT}&user=${userState.data.username}&pass=${proxyPassword}`
+          const message = `User created. Send this settings to him:\n\n<b>host:</b> ${process.env.PUBLIC_URL.replace('https://', '').replace('http://', '')}\n<b>port:</b> ${process.env.APP_PORT}\n<b>username:</b> ${userState.data.username}\n<b>password:</b> ${proxyPassword}\n${proxyLink}`
+        
 
           await bot.sendMessage(chatId, message, {
             parse_mode: 'HTML',
